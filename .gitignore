@@ -23,3 +23,6 @@ go.work.sum
 
 # env file
 .env
+
+# newly created project directory
+web-api/
