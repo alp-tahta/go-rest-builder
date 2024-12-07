@@ -7,45 +7,53 @@ import (
 )
 
 type Node struct {
-	FolderName string
-	Children   []*Node
+	FolderName      string
+	ChildrenFolders []*Node
+	Files           string
 }
 
-// ReturnMainNodeOfTree returns main Node for directory structure
-func ReturnMainNodeOfTree() Node {
+// BuildProjectSkeleton returns main Node for project structure
+func BuildProjectSkeleton() Node {
 	pName := Node{
-		FolderName: "rest-api",
-		Children:   nil,
+		FolderName:      "rest-api",
+		ChildrenFolders: nil,
+		Files:           "main.go",
 	}
 
 	cmd := Node{
-		FolderName: "cmd",
-		Children:   []*Node{&pName},
+		FolderName:      "cmd",
+		ChildrenFolders: []*Node{&pName},
+		Files:           "",
 	}
 
 	handler := Node{
-		FolderName: "handler",
-		Children:   []*Node{},
+		FolderName:      "handler",
+		ChildrenFolders: []*Node{},
+		Files:           "handler.go",
 	}
 
 	service := Node{
-		FolderName: "service",
-		Children:   []*Node{},
+		FolderName:      "service",
+		ChildrenFolders: []*Node{},
+		Files:           "service.go",
 	}
 
 	repository := Node{
-		FolderName: "repository",
-		Children:   []*Node{},
+		FolderName:      "repository",
+		ChildrenFolders: []*Node{},
+		Files:           "repository.go",
 	}
 
 	internal := Node{
-		FolderName: "internal",
-		Children:   []*Node{&handler, &service, &repository},
+		FolderName:      "internal",
+		ChildrenFolders: []*Node{&handler, &service, &repository},
+		Files:           "",
 	}
 
 	mainFolder := Node{
-		FolderName: "rest-api",
-		Children:   []*Node{&cmd, &internal},
+		FolderName:      "rest-api",
+		ChildrenFolders: []*Node{&cmd, &internal},
+		Files:           "",
 	}
 
 	return mainFolder
@@ -63,8 +71,8 @@ func CreateFolders(node Node, parentPath string) {
 		return
 	}
 
-	// Recurse into children
-	for _, child := range node.Children {
+	// Recurse into childrenFolders
+	for _, child := range node.ChildrenFolders {
 		CreateFolders(*child, currentPath)
 	}
 }
