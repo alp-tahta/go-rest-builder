@@ -61,35 +61,36 @@ func BuildProjectSkeleton(domainName string) Node {
 }
 
 // CreateFolders creates the folder structure recursively
-func CreateFolders(node Node, parentPath string) {
+func CreateFolders(node Node, parentPath string) error {
 	// Construct the full path for the current folder
 	currentPath := filepath.Join(parentPath, node.FolderName)
 
 	// Create the directory
 	err := os.MkdirAll(currentPath, 0755) // MkdirAll ensures parent directories are created
 	if err != nil {
-		fmt.Printf("Error creating folder %s: %v\n", currentPath, err)
-		return
+		log.Println(err)
+		return err
 	}
 
 	// Recurse into childrenFolders
 	for _, child := range node.ChildrenFolders {
 		CreateFolders(*child, currentPath)
 	}
+
+	return nil
 }
 
 // CreateFiles creates files in directories
-func CreateFiles(node Node, parentPath string) {
+func CreateFiles(node Node, parentPath string) error {
 	// Construct the full path for the current folder
 	currentPath := filepath.Join(parentPath, node.FolderName)
 
 	// Create the file
-	log.Println(node.Files)
 	if node.Files != "" {
 		_, err := os.Create(fmt.Sprintf("%s/%s", currentPath, node.Files))
 		if err != nil {
-			fmt.Printf("Error creating file %s: %v\n", currentPath, err)
-			return
+			log.Println(err)
+			return err
 		}
 	}
 
@@ -97,4 +98,6 @@ func CreateFiles(node Node, parentPath string) {
 	for _, child := range node.ChildrenFolders {
 		CreateFiles(*child, currentPath)
 	}
+
+	return nil
 }
