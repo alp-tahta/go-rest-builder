@@ -1,9 +1,10 @@
-package names
+package directory
 
 const (
 	CMD = "cmd"
 
-	INTERNAL   = "internal"
+	INTERNAL = "internal"
+
 	HANDLER    = "handler"
 	SERVICE    = "service"
 	REPOSITORY = "repository"

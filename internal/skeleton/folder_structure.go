@@ -1,7 +1,8 @@
-package folders
+package skeleton
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -13,9 +14,9 @@ type Node struct {
 }
 
 // BuildProjectSkeleton returns main Node for project structure
-func BuildProjectSkeleton() Node {
+func BuildProjectSkeleton(domainName string) Node {
 	pName := Node{
-		FolderName:      "rest-api",
+		FolderName:      domainName,
 		ChildrenFolders: nil,
 		Files:           "main.go",
 	}
@@ -51,7 +52,7 @@ func BuildProjectSkeleton() Node {
 	}
 
 	mainFolder := Node{
-		FolderName:      "rest-api",
+		FolderName:      domainName,
 		ChildrenFolders: []*Node{&cmd, &internal},
 		Files:           "",
 	}
@@ -74,5 +75,26 @@ func CreateFolders(node Node, parentPath string) {
 	// Recurse into childrenFolders
 	for _, child := range node.ChildrenFolders {
 		CreateFolders(*child, currentPath)
+	}
+}
+
+// CreateFiles creates files in directories
+func CreateFiles(node Node, parentPath string) {
+	// Construct the full path for the current folder
+	currentPath := filepath.Join(parentPath, node.FolderName)
+
+	// Create the file
+	log.Println(node.Files)
+	if node.Files != "" {
+		_, err := os.Create(fmt.Sprintf("%s/%s", currentPath, node.Files))
+		if err != nil {
+			fmt.Printf("Error creating file %s: %v\n", currentPath, err)
+			return
+		}
+	}
+
+	// Recurse into childrenFolders
+	for _, child := range node.ChildrenFolders {
+		CreateFiles(*child, currentPath)
 	}
 }

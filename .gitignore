@@ -25,4 +25,4 @@ go.work.sum
 .env
 
 # newly created project directory
-web-api/
+test/
