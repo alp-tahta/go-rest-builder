@@ -12,16 +12,16 @@ func main() {
 	domainName := "test"
 
 	// Check if folder exist. If it exist, close program with error.
-	if _, err := os.Stat(domainName); !os.IsExist(err) {
-		log.Println("The provided directory named", domainName, "exists")
-		log.Fatalln("Canceling creation")
+	_, err := os.Stat(domainName)
+	if !os.IsNotExist(err) {
+		log.Fatalf("Error: %s Folder exist. Closing Program.\n", domainName)
 	}
 
 	// Create Project skeleton with given project name
 	tree := skeleton.BuildProjectSkeleton(domainName)
 
 	// Create Folders
-	err := skeleton.CreateFolders(tree, "")
+	err = skeleton.CreateFolders(tree, "")
 	if err != nil {
 		os.RemoveAll(domainName)
 		log.Fatalln(err)
