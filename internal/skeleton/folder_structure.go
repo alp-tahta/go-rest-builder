@@ -5,6 +5,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/alp-tahta/go-rest-builder/internal/constants/directory"
+	"github.com/alp-tahta/go-rest-builder/internal/constants/file"
 )
 
 type Node struct {
@@ -18,35 +21,35 @@ func BuildProjectSkeleton(domainName string) Node {
 	pName := Node{
 		FolderName:      domainName,
 		ChildrenFolders: nil,
-		Files:           "main.go",
+		Files:           file.MAIN,
 	}
 
 	cmd := Node{
-		FolderName:      "cmd",
+		FolderName:      directory.CMD,
 		ChildrenFolders: []*Node{&pName},
 		Files:           "",
 	}
 
 	handler := Node{
-		FolderName:      "handler",
+		FolderName:      directory.HANDLER,
 		ChildrenFolders: []*Node{},
-		Files:           "handler.go",
+		Files:           file.HANDLER,
 	}
 
 	service := Node{
-		FolderName:      "service",
+		FolderName:      directory.SERVICE,
 		ChildrenFolders: []*Node{},
-		Files:           "service.go",
+		Files:           file.SERVICE,
 	}
 
 	repository := Node{
-		FolderName:      "repository",
+		FolderName:      directory.REPOSITORY,
 		ChildrenFolders: []*Node{},
-		Files:           "repository.go",
+		Files:           file.REPOSITORY,
 	}
 
 	internal := Node{
-		FolderName:      "internal",
+		FolderName:      directory.INTERNAL,
 		ChildrenFolders: []*Node{&handler, &service, &repository},
 		Files:           "",
 	}
