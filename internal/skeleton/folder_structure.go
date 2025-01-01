@@ -13,7 +13,7 @@ import (
 type Node struct {
 	FolderName      string
 	ChildrenFolders []*Node
-	Files           string
+	Files           []string
 }
 
 // BuildProjectSkeleton returns main Node for project structure
@@ -21,43 +21,43 @@ func BuildProjectSkeleton(domainName string) Node {
 	pName := Node{
 		FolderName:      domainName,
 		ChildrenFolders: nil,
-		Files:           file.MAIN,
+		Files:           []string{file.MAIN},
 	}
 
 	cmd := Node{
 		FolderName:      directory.CMD,
 		ChildrenFolders: []*Node{&pName},
-		Files:           "",
+		Files:           []string{},
 	}
 
 	handler := Node{
 		FolderName:      directory.HANDLER,
 		ChildrenFolders: []*Node{},
-		Files:           file.HANDLER,
+		Files:           []string{file.HANDLER},
 	}
 
 	service := Node{
 		FolderName:      directory.SERVICE,
 		ChildrenFolders: []*Node{},
-		Files:           file.SERVICE,
+		Files:           []string{file.SERVICE},
 	}
 
 	repository := Node{
 		FolderName:      directory.REPOSITORY,
 		ChildrenFolders: []*Node{},
-		Files:           file.REPOSITORY,
+		Files:           []string{file.REPOSITORY},
 	}
 
 	internal := Node{
 		FolderName:      directory.INTERNAL,
 		ChildrenFolders: []*Node{&handler, &service, &repository},
-		Files:           "",
+		Files:           []string{},
 	}
 
 	mainFolder := Node{
 		FolderName:      domainName,
 		ChildrenFolders: []*Node{&cmd, &internal},
-		Files:           "",
+		Files:           []string{},
 	}
 
 	return mainFolder
@@ -89,11 +89,13 @@ func CreateFiles(node Node, parentPath string) error {
 	currentPath := filepath.Join(parentPath, node.FolderName)
 
 	// Create the file
-	if node.Files != "" {
-		_, err := os.Create(fmt.Sprintf("%s/%s", currentPath, node.Files))
-		if err != nil {
-			log.Println(err)
-			return err
+	if node.Files != nil {
+		for _, v := range node.Files {
+			_, err := os.Create(fmt.Sprintf("%s/%s", currentPath, v))
+			if err != nil {
+				log.Println(err)
+				return err
+			}
 		}
 	}
 
