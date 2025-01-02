@@ -16,8 +16,8 @@ type Node struct {
 	Files           []string
 }
 
-// BuildProjectSkeleton returns main Node for project structure
-func BuildProjectSkeleton(domainName string) Node {
+// BuildTree returns main Node for project structure
+func BuildTree(rootFolderName, domainName string) Node {
 	pName := Node{
 		FolderName:      domainName,
 		ChildrenFolders: nil,
@@ -55,7 +55,7 @@ func BuildProjectSkeleton(domainName string) Node {
 	}
 
 	mainFolder := Node{
-		FolderName:      domainName,
+		FolderName:      rootFolderName,
 		ChildrenFolders: []*Node{&cmd, &internal},
 		Files:           []string{},
 	}
