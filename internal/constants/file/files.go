@@ -5,4 +5,5 @@ const (
 	HANDLER    = "handler.go"
 	SERVICE    = "service.go"
 	REPOSITORY = "repository.go"
+	DTO        = "dto.go"
 )

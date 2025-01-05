@@ -7,6 +7,7 @@ import (
 
 	"github.com/alp-tahta/go-rest-builder/internal/config"
 	"github.com/alp-tahta/go-rest-builder/internal/skeleton"
+	"github.com/alp-tahta/go-rest-builder/internal/writer"
 )
 
 func main() {
@@ -44,6 +45,13 @@ func main() {
 	err = skeleton.CreateFiles(tree, "")
 	if err != nil {
 		os.RemoveAll(v.DomainName)
+		log.Fatalln(err)
+	}
+
+	// TODO make file paths
+
+	err = writer.WriteToFile(fmt.Sprintf("%s/cmd/%s/main.go", v.RootFolderName, v.DomainName), "package main")
+	if err != nil {
 		log.Fatalln(err)
 	}
 }

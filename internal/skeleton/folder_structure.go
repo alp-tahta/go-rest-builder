@@ -48,9 +48,15 @@ func BuildTree(rootFolderName, domainName string) Node {
 		Files:           []string{file.REPOSITORY},
 	}
 
+	dto := Node{
+		FolderName:      directory.DTO,
+		ChildrenFolders: []*Node{},
+		Files:           []string{file.DTO},
+	}
+
 	internal := Node{
 		FolderName:      directory.INTERNAL,
-		ChildrenFolders: []*Node{&handler, &service, &repository},
+		ChildrenFolders: []*Node{&handler, &service, &repository, &dto},
 		Files:           []string{},
 	}
 

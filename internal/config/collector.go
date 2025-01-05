@@ -50,7 +50,7 @@ func ExtractModulePath(rawModulePath string) (modulePath string) {
 	return modulePath
 }
 
-// ReceiveValues takes input from user and sets to config values
+// ReceiveValues receive input from user and sets them to config values
 func ReceiveValues(v *Values) {
 	// Receive module path
 	fmt.Println("Enter module path:\n",
