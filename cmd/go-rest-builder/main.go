@@ -11,8 +11,8 @@ import (
 )
 
 func main() {
-	v := config.Init()
-	config.ReceiveValues(v)
+	v := config.Values{}
+	config.ReceiveValues(&v)
 
 	rootFolderName, err := config.ExtractRootFolderName(v.RawModulePath)
 	if err != nil {
@@ -22,8 +22,6 @@ func main() {
 
 	v.RootFolderName = rootFolderName
 	v.ModulePath = modulePath
-
-	fmt.Println(v)
 
 	// Check if folder exist. If it exist, close program with error.
 	_, err = os.Stat(v.RootFolderName)
@@ -49,9 +47,13 @@ func main() {
 	}
 
 	// TODO make file paths
+	path := writer.BuildFilePath("service.go", tree)
+	fmt.Println("path", path)
 
-	err = writer.WriteToFile(fmt.Sprintf("%s/cmd/%s/main.go", v.RootFolderName, v.DomainName), "package main")
+	pathList := writer.FindMotherFolders(path, tree)
+	fmt.Println("full-path", pathList)
+	/* err = writer.WriteToFile(fmt.Sprintf("%s/cmd/%s/main.go", v.RootFolderName, v.DomainName), "package main")
 	if err != nil {
 		log.Fatalln(err)
-	}
+	} */
 }

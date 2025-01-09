@@ -12,7 +12,7 @@ import (
 
 type Node struct {
 	FolderName      string
-	ChildrenFolders []*Node
+	ChildrenFolders []Node
 	Files           []string
 }
 
@@ -26,43 +26,43 @@ func BuildTree(rootFolderName, domainName string) Node {
 
 	cmd := Node{
 		FolderName:      directory.CMD,
-		ChildrenFolders: []*Node{&pName},
+		ChildrenFolders: []Node{pName},
 		Files:           []string{},
 	}
 
 	handler := Node{
 		FolderName:      directory.HANDLER,
-		ChildrenFolders: []*Node{},
+		ChildrenFolders: []Node{},
 		Files:           []string{file.HANDLER},
 	}
 
 	service := Node{
 		FolderName:      directory.SERVICE,
-		ChildrenFolders: []*Node{},
+		ChildrenFolders: []Node{},
 		Files:           []string{file.SERVICE},
 	}
 
 	repository := Node{
 		FolderName:      directory.REPOSITORY,
-		ChildrenFolders: []*Node{},
+		ChildrenFolders: []Node{},
 		Files:           []string{file.REPOSITORY},
 	}
 
 	dto := Node{
 		FolderName:      directory.DTO,
-		ChildrenFolders: []*Node{},
+		ChildrenFolders: []Node{},
 		Files:           []string{file.DTO},
 	}
 
 	internal := Node{
 		FolderName:      directory.INTERNAL,
-		ChildrenFolders: []*Node{&handler, &service, &repository, &dto},
+		ChildrenFolders: []Node{handler, service, repository, dto},
 		Files:           []string{},
 	}
 
 	mainFolder := Node{
 		FolderName:      rootFolderName,
-		ChildrenFolders: []*Node{&cmd, &internal},
+		ChildrenFolders: []Node{cmd, internal},
 		Files:           []string{},
 	}
 
@@ -83,7 +83,7 @@ func CreateFolders(node Node, parentPath string) error {
 
 	// Recurse into childrenFolders
 	for _, child := range node.ChildrenFolders {
-		CreateFolders(*child, currentPath)
+		CreateFolders(child, currentPath)
 	}
 
 	return nil
@@ -107,7 +107,7 @@ func CreateFiles(node Node, parentPath string) error {
 
 	// Recurse into childrenFolders
 	for _, child := range node.ChildrenFolders {
-		CreateFiles(*child, currentPath)
+		CreateFiles(child, currentPath)
 	}
 
 	return nil

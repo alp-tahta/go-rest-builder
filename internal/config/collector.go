@@ -13,10 +13,6 @@ type Values struct {
 	DomainName     string
 }
 
-func Init() *Values {
-	return &Values{}
-}
-
 // TODO explain
 func ExtractRootFolderName(rawModulePath string) (rootFolderName string, err error) {
 	rootFolderName = rawModulePath
