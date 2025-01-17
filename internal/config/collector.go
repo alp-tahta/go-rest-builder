@@ -11,6 +11,8 @@ type Values struct {
 	ModulePath     string
 	RootFolderName string
 	DomainName     string
+	IsRemoteRepo   bool
+	RemoteName     string
 }
 
 // TODO explain
@@ -57,4 +59,16 @@ func ReceiveValues(v *Values) {
 	// Receive domain name
 	fmt.Println("Enter a domain name(Ex. user): ")
 	fmt.Scanln(&v.DomainName)
+}
+
+func IsRemote(v *Values) {
+	if strings.Contains(v.RawModulePath, "/") {
+		v.IsRemoteRepo = true
+	}
+}
+
+func PickRemoteName(v *Values) {
+	if v.IsRemoteRepo == true {
+		v.RemoteName = strings.Split(v.ModulePath, "/")[0]
+	}
 }

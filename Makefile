@@ -12,4 +12,4 @@ coverage :
 
 # Run on local
 run:
-	go run ./cmd/go-rest-builder/main.go
+	go run main.go
